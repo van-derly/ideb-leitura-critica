@@ -52,6 +52,14 @@
     .ans.ok{ background:var(--ok); border-color:#a8c7ff }
     .ans.no{ background:var(--no); border-color:#ffb5ae }
 
+    /* Evita que alternativas fiquem destacadas automaticamente no celular */
+    .ans:focus,
+    .ans:active {
+      outline: none;
+      background: rgba(255,255,255,0.9) !important;
+      border-color: #d7e4f7 !important;
+    }
+
     .explain{ margin-top:10px; font-size:1rem; background:rgba(242,248,255,0.94); border:1px solid #cddff5; border-radius:10px; padding:12px; display:none }
     .explain.ok{ color:#21405f; background:#eaf3ff; border-color:#a8c7ff }
     .explain.no{ color:#6b1f1f; background:#ffefed; border-color:#ffc2bd }
@@ -68,8 +76,8 @@
       <div class="brand"><div class="logo"></div><h1>topIDEB</h1></div>
       <div class="controls">
         <input id="student" type="text" placeholder="Nome do(a) aluno(a)" maxlength="24" />
-        <button id="start" class="primary">Começar</button>
-        <button id="restart" class="ghost hidden">Reiniciar</button>
+        <button id="start" class="primary" type="button">Começar</button>
+        <button id="restart" class="ghost hidden" type="button">Reiniciar</button>
       </div>
     </header>
 
@@ -90,8 +98,8 @@
         <div class="footer">
           <div id="progress"></div>
           <div>
-            <button id="saveScore" class="ghost hidden">Salvar pontuação</button>
-            <button id="resetRanking" class="danger">Zerar Ranking</button>
+            <button id="saveScore" class="ghost hidden" type="button">Salvar pontuação</button>
+            <button id="resetRanking" class="danger" type="button">Zerar Ranking</button>
           </div>
         </div>
       </div>
@@ -199,11 +207,12 @@ function start(){
 
 function showPhaseBanner(){
   const p = PHASES[phase];
-  el.context.innerHTML = `<strong>Fase concluída!</strong><br>Você avançou para <em>${p.name}</em>.<br><br><button id="continueBtn" class="primary">Continuar</button>`;
+  el.context.innerHTML = `<strong>Fase concluída!</strong><br>Você avançou para <em>${p.name}</em>.<br><br><button id="continueBtn" class="primary" type="button">Continuar</button>`;
   el.question.textContent=''; el.descriptor.textContent='';
   el.answers.innerHTML=''; el.explain.style.display='none';
   el.progress.textContent = `Fase ${phase+1}/${PHASES.length}`;
-  document.getElementById('continueBtn').addEventListener('click', ()=>{ next(); });
+  const btn = document.getElementById('continueBtn');
+  if(btn){ btn.addEventListener('click', ()=>{ next(); }); }
 }
 
 function next(){
