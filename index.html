@@ -3,101 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Leitura Crítica – IDEB (Ensino Médio)</title>
+  <title>topIDEB — Leitura Crítica (EM)</title>
   <style>
     :root{
-      --bg1:#dbefff;   /* azul claro ainda mais suave */
-      --bg2:#f6fbff;   /* quase branco azulado */
+      --bg1:#eaf3ff;
+      --bg2:#fff5f5;
       --card:rgba(255,255,255,0.92);
-      --ink:#20324a;   /* texto confortável */
+      --ink:#20324a;
       --muted:#6e8096;
-      --accent:#5a9bd8;    /* azul médio claro */
-      --accent-2:#7fb7ff;  /* azul hover */
-      --ok:#62c291;        /* verde suave */
-      --warn:#ee7a7a;      /* vermelho suave */
+      --accent:#5a9bd8;
+      --accent-2:#7fb7ff;
+      --ok:#eaf3ff;
+      --no:#ffefed;
+      --warn:#e28989;
       --chip:rgba(255,255,255,0.65);
     }
     *{box-sizing:border-box}
-    body{
-      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--ink);
-      background:linear-gradient(135deg,var(--bg1),var(--bg2));
-      min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:16px;
-    }
-    #app{ width:min(880px,100%); background:var(--card); border-radius:16px; box-shadow:0 10px 30px rgba(15,41,66,.12); overflow:hidden; backdrop-filter: blur(6px); }
-    header{
-      padding:18px 20px; background:linear-gradient(180deg,rgba(240,248,255,0.88),rgba(255,255,255,0.78)); border-bottom:1px solid rgba(229,238,251,0.6);
-      display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap;
-    }
+    body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink);
+      background:linear-gradient(135deg,var(--bg1),var(--bg2)); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px;}
+    #app{ width:min(960px,100%); background:var(--card); border-radius:16px; box-shadow:0 10px 30px rgba(15,41,66,.12); overflow:hidden; }
+    header{ padding:18px 20px; background:linear-gradient(180deg,rgba(240,248,255,0.88),rgba(255,255,255,0.78)); border-bottom:1px solid rgba(229,238,251,0.6);
+      display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
     .brand{ display:flex; align-items:center; gap:12px; }
-    .logo{ width:38px; height:38px; border-radius:10px; background:conic-gradient(from 210deg at 50% 50%, var(--accent), #b5d2f2, #d3e4fa, var(--accent)); box-shadow:inset 0 0 0 2px rgba(255,255,255,.8); }
-    h1{ font-size:1.1rem; margin:0; letter-spacing:.2px }
-    .subtitle{ font-size:.86rem; color:var(--muted) }
-
+    h1{ font-size:1.15rem; margin:0; letter-spacing:.2px }
+    .logo{ width:38px; height:38px; border-radius:10px;
+      background:conic-gradient(from 210deg at 50% 50%, var(--accent), #b5d2f2, #ffdcdc, var(--accent));
+      box-shadow:inset 0 0 0 2px rgba(255,255,255,.8); }
     .controls{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-    input[type="text"], select{
-      padding:10px 12px; border:1px solid #cddff5; border-radius:10px; outline:none; font-size:.95rem; background:rgba(255,255,255,0.7);
-    }
-    button{ cursor:pointer; border:none; border-radius:10px; padding:10px 14px; font-weight:600; letter-spacing:.2px; }
+    input{padding:10px 12px; border:1px solid #cddff5; border-radius:10px; background:rgba(255,255,255,0.7); outline:none; font-size:.95rem;}
+    button{cursor:pointer; border:none; border-radius:10px; padding:10px 14px; font-weight:600; letter-spacing:.2px; }
     .primary{ background:var(--accent); color:#fff; }
     .ghost{ background:rgba(255,255,255,0.7); color:var(--accent); border:1px solid #cddff5 }
     .danger{ background:var(--warn); color:#fff }
-
-    main{ padding:20px; display:grid; grid-template-columns: 1fr; gap:16px; }
-
-    .status{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:10px; }
+    .subtitle{ font-size:.9rem; color:var(--muted); }
+    main{ padding:20px; display:grid; gap:16px; }
+    .status{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; }
     .chip{ background:var(--chip); padding:10px 12px; border-radius:999px; font-size:.88rem; text-align:center; border:1px solid #cddff5; }
     .chip strong{ font-weight:700 }
-
-    .card{ background:rgba(255,255,255,0.92); border:1px solid #d7e4f7; border-radius:14px; padding:16px 18px; box-shadow:0 2px 10px rgba(15,41,66,.06); backdrop-filter: blur(4px); }
-    .context{ background:rgba(247,251,255,0.72); border:1px dashed #cddff5; border-radius:12px; padding:14px; line-height:1.55; }
-    .context mark{ background:#e6f0ff; padding:0 4px; border-radius:4px }
-
-    .question{ font-weight:700; margin:8px 0 6px }
+    .chip.alert{ background:rgba(255,235,233,0.9); border-color:#ffc2bd; color:#7a1f1f }
+    .card{ background:rgba(255,255,255,0.92); border:1px solid #d7e4f7; border-radius:14px; padding:16px; }
+    .question{ font-weight:700; margin:12px 0 6px; font-size:1.05rem; }
     .answers{ display:grid; gap:10px; margin-top:10px }
-    .ans{ text-align:left; padding:14px 16px; border:2px solid #d7e4f7; background:rgba(255,255,255,0.9); border-radius:12px; transition:.15s; color:var(--ink); line-height:1.35; font-size:1rem }
+    .ans{ text-align:left; padding:14px 16px; border:2px solid #d7e4f7; background:rgba(255,255,255,0.9); border-radius:12px; transition:.15s; }
     .ans:hover{ border-color:var(--accent-2); background:rgba(240,248,255,0.95) }
-    .ans.ok{ background:rgba(230,255,239,0.95); border-color:#72d79f }
-    .ans.no{ background:rgba(255,232,230,0.95); border-color:#ffb5ae }
-    .explain{ margin-top:10px; font-size:1rem; color:#21405f; background:rgba(242,248,255,0.94); border:1px solid #cddff5; border-radius:10px; padding:12px 14px; display:none }
-
-    .footer{ display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap }
-    .progress{ font-size:.95rem; color:var(--muted) }
-
+    .ans.ok{ background:var(--ok); border-color:#a8c7ff }
+    .ans.no{ background:var(--no); border-color:#ffb5ae }
+    .explain{ margin-top:10px; font-size:1rem; background:rgba(242,248,255,0.94); border:1px solid #cddff5; border-radius:10px; padding:12px; display:none }
+    .explain.ok{ color:#21405f; background:#eaf3ff; border-color:#a8c7ff }
+    .explain.no{ color:#6b1f1f; background:#ffefed; border-color:#ffc2bd }
+    .footer{ display:flex; gap:10px; justify-content:space-between; align-items:center; flex-wrap:wrap }
+    .hidden{display:none!important}
     .ranking{ padding:0; margin:0; list-style:none }
     .ranking li{ padding:6px 0; border-bottom:1px dashed #cddff5 }
-
-    .hidden{ display:none !important }
-
-    @media (prefers-color-scheme: dark){
-      :root{ --bg1:#101827; --bg2:#0b1424; --card:rgba(12,19,32,0.92); --ink:#e6eef8; --muted:#9fb3ca; --accent:#63a4ff; --accent-2:#7fb7ff; --chip:rgba(19,34,56,0.6) }
-      header{ background:linear-gradient(180deg,rgba(14,22,38,0.88),rgba(12,19,32,0.78)); border-bottom-color:#1e2c43 }
-      .card{ background:rgba(14,22,38,0.9); border-color:#1e2c43; box-shadow:none }
-      .context{ background:rgba(12,26,46,0.75); border-color:#1f3454 }
-      .ans{ background:rgba(11,20,36,0.92); border-color:#1f3454 }
-      .ans:hover{ background:rgba(14,26,47,0.95) }
-      .explain{ background:rgba(14,26,47,0.95); border-color:#1f3454; color:#b9d3f0 }
-      .chip{ background:rgba(11,20,36,0.6); border-color:#1e2c43 }
-      .ghost{ background:rgba(11,20,36,0.6); color:#c6ddff; border-color:#1e2c43 }
-    }
   </style>
 </head>
 <body>
   <div id="app">
     <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <h1>Leitura Crítica – IDEB (EM)</h1>
-          <div class="subtitle">Inferir sentido • Relações lógico-discursivas • Fato × Opinião</div>
-        </div>
-      </div>
+      <div class="brand"><div class="logo"></div><h1>topIDEB</h1></div>
       <div class="controls">
         <input id="student" type="text" placeholder="Nome do(a) aluno(a)" maxlength="24" />
-        <select id="module">
-          <option value="0">Módulo 1 – Inferir o sentido de palavra/expressão</option>
-          <option value="1">Módulo 2 – Relações lógico-discursivas</option>
-          <option value="2">Módulo 3 – Distinguir fato de opinião</option>
-        </select>
         <button id="start" class="primary">Começar</button>
         <button id="restart" class="ghost hidden">Reiniciar</button>
       </div>
@@ -107,18 +72,19 @@
       <section class="status">
         <div class="chip">Pontuação: <strong id="score">0</strong></div>
         <div class="chip">Vidas: <strong id="lives">❤❤❤</strong></div>
-        <div class="chip">Tempo: <strong id="time">–</strong></div>
-        <div class="chip">Ranking (Top 5)</div>
+        <div class="chip" id="timeChip">Tempo: <strong id="time">–</strong></div>
+        <div class="chip">Ranking (Top 10)</div>
       </section>
 
       <div class="card">
-        <div id="context" class="context">Digite o nome, escolha um módulo e clique em <strong>Começar</strong>. Cada questão tem <strong>25 segundos</strong>. Responda e leia a <em>explicação</em> para aprender com o acerto ou com o erro.</div>
+        <div id="context">Digite o nome e clique em <strong>Começar</strong>. São <strong>3 fases</strong> (Fácil, Média, Difícil), com <strong>8 questões</strong> cada. O descritor de cada questão aparece logo abaixo do enunciado.</div>
         <div id="question" class="question"></div>
+        <div id="descriptor" class="subtitle" style="font-weight:700"></div>
         <div id="answers" class="answers"></div>
         <div id="explain" class="explain"></div>
         <div class="footer">
-          <div class="progress" id="progress"></div>
-          <div style="display:flex; gap:8px; align-items:center">
+          <div id="progress"></div>
+          <div>
             <button id="saveScore" class="ghost hidden">Salvar pontuação</button>
             <button id="resetRanking" class="danger">Zerar Ranking</button>
           </div>
@@ -131,303 +97,178 @@
     </main>
   </div>
 
-  <!-- Modal de senha -->
-  <dialog id="pwdDlg">
-    <form method="dialog" style="min-width: 280px">
-      <p><strong>Digite a senha</strong> para zerar o ranking:</p>
-      <input id="pwd" type="password" placeholder="Senha" style="width:100%; padding:10px; border:1px solid #cddff5; border-radius:8px" />
-      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px">
-        <button class="ghost">Cancelar</button>
-        <button id="pwdOk" class="primary" value="ok">OK</button>
-      </div>
-    </form>
-  </dialog>
-
   <script>
-    // ==========================
-    // Banco de questões (Ensino Médio)
-    // ==========================
-    const modules = [
-      {
-        name: 'Inferência lexical',
-        color: '#2b6cb0',
-        questions: [
-          { ctx: 'No editorial sobre mobilidade urbana, o autor afirma que a nova faixa exclusiva para ônibus é uma medida <mark>paliativa</mark> diante do aumento de carros na cidade.',
-            q: 'No contexto, o termo “paliativa” significa:',
-            a: ['que ameniza o problema sem resolvê-lo por completo','que elimina definitivamente a causa do problema','que amplia o problema de forma gradual e constante','que transfere o problema para outra região da cidade'],
-            c: 0,
-            e: '“Paliativa” indica alívio temporário, não solução definitiva.' },
-          { ctx: 'O relatório ambiental recomenda ações para <mark>mitigar</mark> os impactos da enchente em bairros ribeirinhos.',
-            q: 'O verbo “mitigar” está sendo usado com o sentido de:',
-            a: ['reduzir a intensidade do impacto observado','apagar completamente todos os efeitos descritos','deslocar o problema para regiões vizinhas','acelerar o processo de reconstrução imediata'],
-            c: 0,
-            e: 'Mitigar = diminuir, atenuar efeitos, não eliminá-los por completo.' },
-          { ctx: 'A pesquisa baseia-se em um conjunto <mark>robusto</mark> de dados coletados ao longo de dez anos.',
-            q: 'No trecho, “robusto” significa:',
-            a: ['consistente e amplo o suficiente para dar confiabilidade','frágil e sujeito a grandes distorções amostrais','rápido e fácil de coletar em poucas semanas','incompleto e dependente de suposições'],
-            c: 0,
-            e: '“Robusto” descreve algo sólido e confiável do ponto de vista metodológico.' },
-          { ctx: 'O preço do combustível mostrou comportamento <mark>volátil</mark> nos últimos meses.',
-            q: 'Aqui, “volátil” tem o sentido de:',
-            a: ['instável, com variações frequentes','estável, com pequenas oscilações','controlado por regras fixas','previsto por contrato anual'],
-            c: 0,
-            e: 'Volátil é aquilo que muda muito e rapidamente.' },
-          { ctx: 'O acordo <mark>pressupõe</mark> a cooperação entre universidades e empresas locais.',
-            q: 'O termo “pressupõe” indica a ideia de:',
-            a: ['supor previamente como condição','negar formalmente como hipótese','contradizer publicamente como regra','adiar indefinidamente como escolha'],
-            c: 0,
-            e: 'Pressupor = tomar como condição já assumida.' },
-          { ctx: 'O levantamento apresenta um resultado <mark>inédito</mark> para a região.',
-            q: 'No contexto, “inédito” quer dizer:',
-            a: ['nunca registrado anteriormente','amplamente repetido em anos anteriores','curto e pouco relevante para o tema','técnico demais para ser compreendido'],
-            c: 0,
-            e: 'Inédito = novo, sem precedentes naquela série histórica.' }
-        ]
-      },
-      {
-        name: 'Relações lógico-discursivas',
-        color: '#2f855a',
-        questions: [
-          { ctx: '“A demanda por energia aumentou; <mark>porém</mark>, os investimentos em eficiência ficaram estáveis.”',
-            q: 'O conector “porém” estabelece uma relação de:',
-            a: ['oposição entre ideias apresentadas','explicação da causa mencionada','finalidade do investimento citado','enumeração de partes do argumento'],
-            c: 0,
-            e: '“Porém” é marcador típico de contraste/oposição.' },
-          { ctx: '“Foram ampliadas as linhas de ônibus, <mark>portanto</mark> o tempo médio de viagem diminuiu.”',
-            q: 'O conector “portanto” indica:',
-            a: ['conclusão ou consequência lógica','condição necessária para o evento','comparação entre duas estratégias','exemplificação de um conceito'],
-            c: 0,
-            e: '“Portanto” resume e conclui com base no que foi dito.' },
-          { ctx: '“<mark>Embora</mark> a taxa de evasão tenha caído, a escola ampliou os programas de apoio.”',
-            q: '“Embora” estabelece qual relação?',
-            a: ['concessão, sinalizando contraste com o esperado','adição, somando mais um argumento','causalidade, explicando um motivo','finalidade, apontando um objetivo'],
-            c: 0,
-            e: 'Concessão = admitir um fato, mas manter a tese/ação.' },
-          { ctx: '“A equipe revisou os dados <mark>para</mark> reduzir inconsistências.”',
-            q: 'O conector “para” introduz:',
-            a: ['finalidade da ação apresentada','oposição entre duas ideias','tempo em que algo ocorreu','condição para realizar a tarefa'],
-            c: 0,
-            e: '“Para” (no sentido de “a fim de”) indica objetivo/finalidade.' },
-          { ctx: '“Os níveis de rios subiram <mark>porque</mark> choveu acima da média.”',
-            q: 'O conector “porque” marca relação de:',
-            a: ['causa justificando o efeito','comparação entre eventos','contraste de resultados','hipótese sem confirmação'],
-            c: 0,
-            e: '“Porque” é um causador explícito do efeito descrito.' },
-          { ctx: '“As propostas seguem, <mark>além disso</mark>, recomendações internacionais.”',
-            q: '“Além disso” expressa:',
-            a: ['adição de um novo argumento','condição para validar o texto','temporalidade dos fatos','oposição a uma tese anterior'],
-            c: 0,
-            e: 'Marcador de soma/listagem que reforça a tese.' }
-        ]
-      },
-      {
-        name: 'Fato × Opinião',
-        color: '#c05621',
-        questions: [
-          { ctx: 'Trecho de notícia: “O município entregou 12 km de ciclovias em 2024 e iniciou consulta pública sobre novas rotas.”',
-            q: 'Qual alternativa apresenta um <strong>fato</strong> verificável, segundo o trecho?',
-            a: ['Foram entregues 12 km de ciclovias em 2024','As ciclovias são a solução mais elegante para o trânsito','As rotas novas devem agradar a todos os moradores','A cidade finalmente entendeu o valor da mobilidade ativa'],
-            c: 0,
-            e: 'Só a primeira pode ser checada em documentos/relatórios.' },
-          { ctx: 'Release institucional: “A escola ampliou o laboratório e adquiriu 20 computadores para pesquisa.”',
-            q: 'Assinale o <strong>fato</strong> contido no texto:',
-            a: ['Foram adquiridos 20 computadores para pesquisa','O laboratório ficou extremamente moderno e perfeito','Os estudantes agora não terão mais dificuldades','A decisão foi a mais inteligente do ano'],
-            c: 0,
-            e: 'Número de máquinas é informação objetiva e auditável.' },
-          { ctx: 'Nota técnica: “O índice de chuva superou a média histórica em três meses consecutivos.”',
-            q: 'Qual opção traduz um <strong>fato</strong> do texto?',
-            a: ['Choveu acima da média por três meses seguidos','O clima está totalmente fora de controle','A estação chuvosa é sempre excessiva','O tempo virou um problema insolúvel'],
-            c: 0,
-            e: 'A série de três meses é verificável; as demais são juízos.' },
-          { ctx: 'Reportagem: “A biblioteca recebeu 2.300 visitantes no último trimestre e promoveu quatro clubes de leitura.”',
-            q: 'Identifique o <strong>fato</strong>:',
-            a: ['Foram 2.300 visitantes no último trimestre','A biblioteca virou o local mais agradável da cidade','Os clubes de leitura foram perfeitos','Todos os moradores passaram a ler mais livros'],
-            c: 0,
-            e: 'Visitantes e número de clubes são dados objetivos.' },
-          { ctx: 'Boletim: “A rodovia passou por recapeamento em 28 km e recebeu nova sinalização horizontal.”',
-            q: 'Assinale a alternativa que expressa um <strong>fato</strong> do boletim:',
-            a: ['Houve recapeamento em 28 km da rodovia','A obra foi a mais demorada da década','A estrada ficou impecável após a intervenção','Os motoristas acharam a mudança excelente'],
-            c: 0,
-            e: 'A extensão recapeada é quantificável e documental.' },
-          { ctx: 'Nota: “A prefeitura publicou o edital do concurso em 15 de agosto, prevendo 120 vagas.”',
-            q: 'Qual sentença é um <strong>fato</strong> segundo a nota?',
-            a: ['O edital foi publicado em 15 de agosto com 120 vagas','O concurso será o mais disputado da história','As vagas são poucas para a necessidade real','O cronograma é excelente para os candidatos'],
-            c: 0,
-            e: 'Data e número de vagas são informações verificáveis.' }
-        ]
-      }
-    ];
+const PHASES = [
+  { name:'Fácil', items:[
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'"O campeonato começa dia 12 de maio."', q:'Qual é a data de início?', a:['10 de maio','12 de maio','15 de maio','20 de maio'], c:1, e:'Informação literal: 12 de maio.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Cartaz: "Show às 19h no Teatro Municipal"', q:'Qual é o horário do show?', a:['18h','19h','20h','21h'], c:1, e:'Está dito: 19h.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Aviso: "Inscrições de 1º a 7 de setembro"', q:'Período das inscrições:', a:['1º–5','1º–7','2–8','7–14'], c:1, e:'Literal: 1º a 7.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Relatório: "Foram coletadas 250 amostras no trimestre"', q:'Quantas amostras foram coletadas?', a:['150','200','250','300'], c:2, e:'Número informado: 250.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Boletim: "A média passou de 5,4 para 6,1"', q:'Qual era a média anterior?', a:['5,0','5,2','5,4','5,6'], c:2, e:'Anterior: 5,4.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'João saiu com guarda-chuva ao ver o céu nublado.', q:'O que se infere?', a:['Vai ventar','Pode chover','Vai fazer sol','Haverá neblina'], c:1, e:'Guarda-chuva + nublado → chance de chuva.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'Maria acendeu a luz ao entrar.', q:'Como estava a sala?', a:['Clara','Escura','Lotada','Decorada'], c:1, e:'Se acendeu, estava escura.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'Ao soar o sinal, os alunos guardaram os cadernos e se levantaram.', q:'O que se infere?', a:['A aula começou','A aula terminou','Houve prova','Professor faltou'], c:1, e:'Rotina de encerramento.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"A biblioteca recebeu 200 livros."', q:'Qual opção é fato?', a:['A biblioteca ficou incrível','Chegaram 200 livros','Os livros são ótimos','Foi um exagero'], c:1, e:'Dado verificável: 200 livros.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"Choveu 20 mm ontem."', q:'Qual é opinião?', a:['Choveu 20 mm','Foi chuva forte','Ontem choveu','Houve precipitação'], c:1, e:'"Forte" é avaliação.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"O filme teve 1 milhão de espectadores."', q:'Marque a opinião:', a:['1 milhão de espectadores','Foi o melhor do ano','Houve muitas sessões','Dados são oficiais'], c:1, e:'"Melhor do ano" é juízo de valor.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"Devemos plantar árvores, pois reduzem o calor."', q:'Qual é o argumento?', a:['Plantar árvores','Reduzem o calor','A cidade é quente','Praças são bonitas'], c:1, e:'A razão é reduzir o calor.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"A prática de esportes melhora a saúde; por isso, deve ser incentivada."', q:'Qual é a tese?', a:['Melhora a saúde','Deve ser incentivada','Alunos gostam','É tendência'], c:1, e:'Tese: incentivar a prática.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Nota: "Reunião às 8h, sala 12"', q:'Onde será a reunião?', a:['Sala 10','Sala 11','Sala 12','Sala 13'], c:2, e:'Sala 12.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Calendário: "A prova será na sexta-feira"', q:'Em que dia será a prova?', a:['Quarta','Quinta','Sexta','Sábado'], c:2, e:'Sexta-feira.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'Carlos levou casaco grosso após ouvir a previsão.', q:'O que se infere?', a:['Vai fazer calor','Pode esfriar','Vai chover','Vai ventar'], c:1, e:'Casaco grosso → frio.'}
+  ]},
+  { name:'Média', items:[
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'Carlos chegou encharcado e deixou o casaco secando.', q:'Provável causa:', a:['Neve','Chuva','Calor','Vento'], c:1, e:'Encharcado → chuva.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'O mercado fechou as portas e baixou as luzes às 22h.', q:'O que se infere?', a:['Abertura','Intervalo','Encerramento','Promoção'], c:2, e:'Sinais de encerramento.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'Mariana levou protetor solar e chapéu para a trilha.', q:'O que se infere?', a:['Vai chover','Dia ensolarado','Passeio noturno','Neve'], c:1, e:'Itens indicam sol.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Relatório: "Foram coletadas 250 amostras no trimestre"', q:'Quantas amostras?', a:['150','200','250','300'], c:2, e:'Número literal: 250.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Edital: "provas nos dias 3 e 4 de junho"', q:'Quantos dias de prova?', a:['1','2','3','4'], c:1, e:'3 e 4 → duas datas.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"O time marcou três gols."', q:'Qual é opinião?', a:['Três gols','Vitória foi linda','Houve gols','Placar teve 3 gols'], c:1, e:'"Linda" é juízo de valor.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"A campanha vacinou 12.000 pessoas."', q:'Qual é opinião?', a:['12.000 pessoas','Cobertura foi excelente','Houve vacinação','Meta atingida'], c:1, e:'"Excelente" = avaliação.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"O uso de bicicletas deve ser incentivado porque diminui o trânsito."', q:'Qual é a tese?', a:['Diminuir o trânsito','Incentivar bicicletas','Carros poluem','Ciclovias são caras'], c:1, e:'Tese: incentivar bicicletas.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"Merenda saudável deve ser adotada, pois melhora a aprendizagem."', q:'Qual é o argumento?', a:['Adotar merenda saudável','Melhora a aprendizagem','Alunos gostam','É moda'], c:1, e:'Razão: melhora da aprendizagem.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"Bibliotecas em tempo integral reduzem a evasão; por isso, devem ser ampliadas."', q:'Qual é o argumento?', a:['Reduzem a evasão','Devem ser ampliadas','Alunos leem mais','Livros são caros'], c:0, e:'Razão: reduzir evasão.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Nota: "Entrega até 18h de terça"', q:'Prazo de entrega:', a:['18h de segunda','18h de terça','18h de quarta','20h de terça'], c:1, e:'18h de terça.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Cartaz: "Exposição de 2 a 15 de agosto"', q:'Duração do evento:', a:['1 dia','7 dias','14 dias','15 dias'], c:2, e:'2 a 15 → 14 dias.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'Pedro desligou o despertador e correu para o ponto.', q:'O que se infere?', a:['Acordou cedo demais','Está atrasado','Vai de carro','É feriado'], c:1, e:'Correr para o ponto → atraso.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"A feira recebeu 5.000 visitantes; foi a melhor de todas."', q:'Qual é fato?', a:['Foi a melhor de todas','Recebeu 5.000 visitantes','Todos adoraram','Organização perfeita'], c:1, e:'Número verificável.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"Aulas de educação financeira devem ser obrigatórias, pois ajudam no planejamento."', q:'Qual é a tese?', a:['Ajudam no planejamento','Devem ser obrigatórias','Juros são altos','Poupar é difícil'], c:1, e:'Tese: tornar obrigatórias.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Agenda: "Reunião remarcada para 14h"', q:'Novo horário:', a:['10h','11h','14h','16h'], c:2, e:'Remarcada para 14h.'}
+  ]},
+  { name:'Difícil', items:[
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"A coleta seletiva deve ser obrigatória; assim, diminuiremos o lixo nos aterros."', q:'Qual é a tese?', a:['Diminuir o lixo','Obrigatoriedade da coleta seletiva','Pessoas reciclam pouco','Aterros são caros'], c:1, e:'Tese: tornar obrigatória.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"Transporte público gratuito deve ser adotado, pois aumenta o acesso e reduz carros."', q:'Qual argumento principal?', a:['Reduz carros','É gratuito','Ônibus são confortáveis','Carros são ruins'], c:0, e:'Razão: reduzir carros (e ampliar acesso).'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"Para melhorar a mobilidade, a cidade precisa priorizar ciclovias."', q:'O que é tese?', a:['Melhorar a mobilidade','Priorizar ciclovias','Menos acidentes','Mais ônibus'], c:1, e:'Tese: priorizar ciclovias.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'O vendedor fechou a porta e virou a placa para "Fechado".', q:'Momento inferido:', a:['Abertura','Intervalo','Fechamento','Promoção'], c:2, e:'Placa → encerramento.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'Ana atrasou porque o ônibus quebrou no caminho.', q:'O que se infere?', a:['Ela saiu tarde','Imprevisto no transporte','Ela esqueceu o relógio','Houve greve'], c:1, e:'Quebra do ônibus → imprevisto.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'O técnico pediu tempo e reorganizou o time.', q:'O que se infere?', a:['O time vencia fácil','Havia problema tático','Jogo terminou','Choveu'], c:1, e:'Pedido de tempo → ajuste tático.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"A nova lei reduziu em 15% os acidentes em um ano."', q:'Qual é opinião?', a:['Reduziu 15%','Foi um grande sucesso','Houve diminuição','Dados de um ano'], c:1, e:'"Grande sucesso" é avaliação.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"A cidade possui 120 praças bem cuidadas."', q:'Assinale a opinião:', a:['120 praças','Bem cuidadas','Cidade possui praças','Há muitas áreas verdes'], c:1, e:'"Bem cuidadas" é valorativo.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Nota técnica: "A média subiu de 4,2 para 4,8"', q:'Qual era a média anterior?', a:['4,0','4,1','4,2','4,5'], c:2, e:'Anterior: 4,2.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Relatório: "Foram 18 intervenções ao longo de 6 meses"', q:'Intervenções realizadas:', a:['12','15','18','20'], c:2, e:'Explícito: 18.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"Para preservar rios, é necessário reduzir esgoto sem tratamento."', q:'Qual é o argumento?', a:['Preservar rios','Reduzir esgoto sem tratamento','Mais multas','Plantar árvores'], c:1, e:'Razão: reduzir esgoto.'},
+    {desc:{code:'D8',text:'Identificar argumentação (tese × argumento)'}, ctx:'"Os parques devem abrir à noite, pois aumentam o lazer seguro."', q:'Tese ou argumento?', a:['Tese: abrir à noite','Argumento: abrir à noite','Tese: lazer seguro','Argumento: parques são bonitos'], c:0, e:'Tese = abrir à noite; razão = lazer seguro.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'Beatriz fechou o livro e apagou a luz da biblioteca.', q:'O que se infere?', a:['Início da leitura','Fim do horário','Intervalo','Chegada de amigos'], c:1, e:'Ações → encerramento.'},
+    {desc:{code:'D14',text:'Diferenciar fato de opinião'}, ctx:'"O projeto atendeu 900 famílias e foi espetacular."', q:'Qual é fato?', a:['Atendeu 900 famílias','Foi espetacular','Mudou a cidade','Todos aprovaram'], c:0, e:'Número é verificável.'},
+    {desc:{code:'D1',text:'Localizar informações explícitas'}, ctx:'Agenda: "Entrega do relatório dia 28/09"', q:'Data da entrega:', a:['26/09','27/09','28/09','30/09'], c:2, e:'Explícito: 28/09.'},
+    {desc:{code:'D4',text:'Inferir informações implícitas'}, ctx:'A professora recolheu as folhas e pediu silêncio.', q:'O que se infere?', a:['Início de prova','Fim da aula','Recreio','Apresentação'], c:0, e:'Silêncio + recolher folhas → prova.'}
+  ]}
+];
 
-    // ==========================
-    // Estado do jogo
-    // ==========================
-    const MAX_Q = 5;         // questões por sessão
-    const MAX_LIVES = 3;
-    const TIME = 25;         // segundos por questão
+const QUESTIONS_PER_PHASE = 8;
+const MAX_LIVES = 3, TIME = 40;
+let phase = 0, pool = [], asked = 0, lives = MAX_LIVES, score = 0, timer = null, timeLeft = TIME;
 
-    let currentModule = 0;
-    let available = [];
-    let asked = 0;
-    let lives = MAX_LIVES;
-    let score = 0;
-    let timer = null;
-    let timeLeft = TIME;
+const $ = s => document.querySelector(s);
+const el = { student:$('#student'), start:$('#start'), restart:$('#restart'), score:$('#score'), lives:$('#lives'), time:$('#time'), timeChip:$('#timeChip'), context:$('#context'), question:$('#question'), descriptor:$('#descriptor'), answers:$('#answers'), explain:$('#explain'), progress:$('#progress'), saveScore:$('#saveScore'), ranking:$('#ranking'), resetRanking:$('#resetRanking') };
 
-    // ==========================
-    // Utilidades
-    // ==========================
-    const $ = sel => document.querySelector(sel);
-    const el = {
-      student: $('#student'),
-      module: $('#module'),
-      start: $('#start'),
-      restart: $('#restart'),
-      score: $('#score'),
-      lives: $('#lives'),
-      time: $('#time'),
-      context: $('#context'),
-      question: $('#question'),
-      answers: $('#answers'),
-      explain: $('#explain'),
-      progress: $('#progress'),
-      saveScore: $('#saveScore'),
-      ranking: $('#ranking'),
-      resetRanking: $('#resetRanking'),
-      pwdDlg: $('#pwdDlg'),
-      pwd: $('#pwd'),
-      pwdOk: $('#pwdOk')
-    };
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a }
+function fmtHearts(n){ return '❤'.repeat(n) }
+function calcPoints(t){ return t>=30?100:t>=20?70:t>=10?40:10 }
 
-    function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a }
-    function fmtHearts(n){ return '❤'.repeat(n) }
-    function calcPoints(t){ return t>=18?100:t>=12?70:t>=6?40:10 }
+function buildPool(phaseObj){
+  const all = phaseObj.items.map((_,qi)=>({qi}));
+  return shuffle(all).slice(0, Math.min(QUESTIONS_PER_PHASE, phaseObj.items.length));
+}
 
-    function saveRankingEntry(name, score){
-      const data = JSON.parse(localStorage.getItem('rank_idedb_em'))||[];
-      data.push({ name, score, at: new Date().toISOString() });
-      data.sort((a,b)=> b.score - a.score);
-      localStorage.setItem('rank_idedb_em', JSON.stringify(data.slice(0,20)));
-      renderRanking();
-    }
-    function renderRanking(){
-      const data = JSON.parse(localStorage.getItem('rank_idedb_em'))||[];
-      el.ranking.innerHTML = data.slice(0,5).map((r,i)=>`<li>${i+1}. ${escapeHtml(r.name)} — <strong>${r.score}</strong> pts</li>`).join('');
-    }
+function tick(startAt){
+  timeLeft = startAt; el.time.textContent = timeLeft+'s';
+  el.timeChip?.classList.remove('alert');
+  clearInterval(timer);
+  timer = setInterval(()=>{
+    timeLeft--; el.time.textContent=timeLeft+'s';
+    if(timeLeft<=10) el.timeChip?.classList.add('alert');
+    if(timeLeft<=0){ clearInterval(timer); answer(null,false); }
+  },1000);
+}
 
-    const TEACHER_PWD = '3210';
-    document.addEventListener('click', (e)=>{
-      if(e.target && e.target.id === 'resetRanking'){
-        el.pwd.value = '';
-        el.pwdDlg.showModal();
-      }
-    });
+function start(){
+  const name = el.student.value.trim();
+  if(!name){ alert('Digite o nome do(a) aluno(a).'); return; }
+  phase = 0; lives = MAX_LIVES; score = 0; asked = 0; pool = buildPool(PHASES[phase]);
+  el.lives.textContent = fmtHearts(lives); el.score.textContent = score; el.explain.style.display='none';
+  el.restart.classList.add('hidden'); el.saveScore.classList.add('hidden');
+  next();
+}
 
-    el.pwdOk?.addEventListener('click', (ev)=>{
-      if(el.pwd.value === TEACHER_PWD){
-        localStorage.removeItem('rank_idedb_em');
-        renderRanking();
-        setTimeout(()=>alert('Ranking zerado!'), 10);
-      } else {
-        ev.preventDefault();
-        alert('Senha incorreta.');
-      }
-    });
+function showPhaseBanner(){
+  const p = PHASES[phase];
+  el.context.innerHTML = `<strong>Fase concluída!</strong><br>Você avançou para <em>${p.name}</em>.<br><br><button id="continueBtn" class="primary">Continuar</button>`;
+  el.question.textContent=''; el.descriptor.textContent='';
+  el.answers.innerHTML=''; el.explain.style.display='none';
+  el.progress.textContent = `Fase ${phase+1}/${PHASES.length}`;
+  document.getElementById('continueBtn').addEventListener('click', ()=>{ next(); });
+}
 
-    function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])) }
+function next(){
+  clearInterval(timer);
+  if(lives<=0){ return end(); }
+  if(asked>=pool.length){
+    phase++;
+    if(phase>=PHASES.length){ return end(); }
+    asked = 0; pool = buildPool(PHASES[phase]);
+    return showPhaseBanner();
+  }
+  const item = PHASES[phase].items[ pool[asked++].qi ];
 
-    // ==========================
-    // Fluxo do jogo
-    // ==========================
-    function start(){
-      const name = el.student.value.trim();
-      if(!name){ alert('Digite o nome do(a) aluno(a).'); return }
-      currentModule = +el.module.value;
+  el.context.textContent = item.ctx;
+  el.question.textContent = item.q;
+  el.descriptor.innerHTML = `<strong>[${item.desc.code}] ${item.desc.text}</strong>`;
+  el.explain.textContent = ''; el.explain.style.display = 'none';
 
-      const total = modules[currentModule].questions.length;
-      available = shuffle([...Array(total).keys()]).slice(0, Math.min(MAX_Q, total));
-      asked = 0; lives = MAX_LIVES; score = 0; timeLeft = TIME;
+  el.answers.innerHTML = '';
+  const opts = shuffle(item.a.map((t,i)=>({t,i})));
+  for(const opt of opts){
+    const b = document.createElement('button');
+    b.className = 'ans'; b.type = 'button'; b.textContent = opt.t;
+    b.addEventListener('click',()=>answer(b, opt.i===item.c, item));
+    el.answers.appendChild(b);
+  }
+  el.progress.textContent = `Fase ${phase+1}/${PHASES.length} · Questão ${asked} de ${pool.length}`;
+  tick(TIME);
+}
 
-      el.restart.classList.add('hidden');
-      el.saveScore.classList.add('hidden');
+function answer(btn, ok, item){
+  clearInterval(timer);
+  Array.from(el.answers.children).forEach(b=> b.disabled=true);
+  if(btn) btn.classList.add(ok?'ok':'no');
+  if(ok){ score += calcPoints(timeLeft); el.score.textContent = score; } else { lives--; el.lives.textContent = fmtHearts(lives); }
+  el.explain.textContent = (ok?'Acertou! ':'Não foi dessa vez. ') + (item?.e || '');
+  el.explain.className = 'explain ' + (ok ? 'ok' : 'no');
+  el.explain.style.display = 'block';
+  setTimeout(next, 900);
+}
 
-      el.lives.textContent = fmtHearts(lives);
-      el.score.textContent = score;
-      tick(TIME);
-      next();
-    }
+function end(){
+  clearInterval(timer);
+  el.context.innerHTML = `<strong>Fim!</strong> Você concluiu todas as fases com pontuação <strong>${score}</strong>.`;
+  el.question.textContent=''; el.descriptor.textContent=''; el.answers.innerHTML='';
+  el.explain.style.display='none'; el.progress.textContent='';
+  el.restart.classList.remove('hidden'); el.saveScore.classList.remove('hidden');
+}
 
-    function next(){
-      clearInterval(timer);
-      if(lives<=0 || asked>=available.length){ return end() }
+// Ranking
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;","'":"&#39;"}[m])) }
+function renderRanking(){
+  const data=JSON.parse(localStorage.getItem('rank_idedb_em'))||[];
+  el.ranking.innerHTML = data.slice(0,10).map((r,i)=>`<li>${i+1}. ${escapeHtml(r.name)} — <strong>${r.score}</strong> pts</li>`).join('');
+}
+el.saveScore.addEventListener('click', ()=>{
+  const name = el.student.value.trim();
+  if(!name){ alert('Sem nome não dá pra salvar 😅'); return; }
+  const data = JSON.parse(localStorage.getItem('rank_idedb_em'))||[];
+  data.push({ name, score, at:new Date().toISOString() });
+  data.sort((a,b)=> b.score - a.score);
+  localStorage.setItem('rank_idedb_em', JSON.stringify(data.slice(0,50)));
+  el.saveScore.classList.add('hidden');
+  renderRanking();
+});
 
-      const idx = available[asked++];
-      const item = modules[currentModule].questions[idx];
+el.start.addEventListener('click', start);
+el.restart.addEventListener('click', start);
+el.resetRanking.addEventListener('click', ()=>{ localStorage.removeItem('rank_idedb_em'); renderRanking(); alert('Ranking zerado!'); });
 
-      el.context.innerHTML = item.ctx;
-      el.question.textContent = item.q;
-      el.explain.style.display = 'none';
-      el.explain.textContent = '';
-
-      el.answers.innerHTML = '';
-      const opts = shuffle(item.a.map((t,i)=>({t,i})));
-      for(const opt of opts){
-        const b = document.createElement('button');
-        b.className = 'ans'; b.type = 'button'; b.textContent = opt.t;
-        b.addEventListener('click', ()=> answer(b, opt.i === item.c, item));
-        el.answers.appendChild(b);
-      }
-
-      el.progress.textContent = `Questão ${asked} de ${available.length} · Módulo: ${modules[currentModule].name}`;
-      tick(TIME);
-    }
-
-    function tick(startAt){
-      timeLeft = startAt; el.time.textContent = timeLeft+'s';
-      clearInterval(timer);
-      timer = setInterval(()=>{
-        timeLeft--; el.time.textContent = timeLeft+'s';
-        if(timeLeft<=0){ clearInterval(timer); answer(null,false); }
-      },1000);
-    }
-
-    function answer(btn, ok, item){
-      clearInterval(timer);
-      Array.from(el.answers.children).forEach(b=> b.disabled = true);
-
-      if(btn){ btn.classList.add(ok?'ok':'no'); }
-      if(ok){ score += calcPoints(timeLeft); el.score.textContent = score; }
-      else{ lives--; el.lives.textContent = fmtHearts(lives); }
-
-      const msg = ok ? 'Acertou! ' : 'Não foi dessa vez. ';
-      el.explain.textContent = msg + (item?.e || '');
-      el.explain.style.display = 'block';
-
-      setTimeout(next, 900);
-    }
-
-    function end(){
-      clearInterval(timer);
-      el.context.innerHTML = `<strong>Fim da sessão!</strong> Você concluiu o módulo <em>${modules[currentModule].name}</em>.`;
-      el.question.textContent = '';
-      el.answers.innerHTML = '';
-      el.explain.style.display = 'none';
-      el.progress.textContent = '';
-      el.restart.classList.remove('hidden');
-      el.saveScore.classList.remove('hidden');
-    }
-
-    // Eventos
-    document.getElementById('start').addEventListener('click', start);
-    document.getElementById('restart').addEventListener('click', start);
-    document.getElementById('saveScore').addEventListener('click', ()=>{
-      const name = el.student.value.trim();
-      if(!name){ alert('Sem nome não dá pra salvar 😅'); return; }
-      saveRankingEntry(name, score);
-      document.getElementById('saveScore').classList.add('hidden');
-    });
-
-    // Init
-    renderRanking();
+renderRanking();
   </script>
 </body>
 </html>
